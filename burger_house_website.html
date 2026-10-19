@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BURGER HOUSE | El Sabor Que No Se Olvida</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            black: '#0b0b0b',
+                            dark: '#121212',
+                            card: '#1a1a1a',
+                            red: '#ff1e27',
+                            redHover: '#e63946',
+                            gold: '#ffb703',
+                            gray: '#888888',
+                            whatsapp: '#25D366'
+                        }
+                    },
+                    fontFamily: {
+                        display: ['Bebas Neue', 'sans-serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'glow-red': '0 0 25px rgba(255, 30, 39, 0.4)',
+                        'glow-green': '0 0 25px rgba(37, 211, 102, 0.4)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b0b0b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff1e27;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e63946;
+        }
+
+        /* Ambient Glow & Background effects */
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(255, 30, 39, 0.15) 0%, rgba(11, 11, 11, 1) 70%);
+        }
+        .card-border-glow {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-border-glow:hover {
+            border-color: rgba(255, 30, 39, 0.6);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px -10px rgba(255, 30, 39, 0.3);
+        }
+        
+        /* Glassmorphism Effect */
+        .glass-nav {
+            background: rgba(11, 11, 11, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-brand-black text-white font-sans antialiased selection:bg-brand-red selection:text-white overflow-x-hidden">
+
+    <!-- ========================================== -->
+    <!-- CONFIGURACIÓN DE WHATSAPP (SISTEMA INTERNO) -->
+    <!-- ========================================== -->
+    <script>
+        // =========================================================================
+        // INSTRUCCIONES PARA REEMPLAZAR EL NÚMERO DE WHATSAPP:
+        // Reemplaza "549XXXXXXXXXX" por el número telefónico real con su código de país.
+        // Ejemplo Argentina (CÓDIGO DE PAÍS 54, ÁREA Y NÚMERO): "5491112345678"
+        // =========================================================================
+        const CONFIG_WHATSAPP = {
+            numero: "549XXXXXXXXXX", // <-- REEMPLAZAR AQUÍ TU NÚMERO REAL
+            mensajePredeterminado: "¡Hola Burger House! Quisiera realizar una consulta sobre sus productos."
+        };
+    </script>
+
+    <!-- 1. ENCABEZADO / NAVBAR -->
+    <header id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-300 border-b border-transparent py-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-12">
+                
+                <!-- Logo -->
+                <a href="#inicio" class="flex items-center gap-2 group">
+                    <div class="w-10 h-10 rounded-full bg-brand-red flex items-center justify-center text-white text-xl shadow-glow-red group-hover:scale-105 transition-transform">
+                        <i class="fa-solid font-bold fa-burger"></i>
+                    </div>
+                    <span class="font-display text-2xl sm:text-3xl tracking-wider text-white">BURGER <span class="text-brand-red">HOUSE</span></span>
+                </a>
+
+                <!-- Nav Links (Desktop) -->
+                <nav class="hidden md:flex items-center gap-8 font-medium text-sm tracking-wide">
+                    <a href="#inicio" class="hover:text-brand-red transition-colors py-1">INICIO</a>
+                    <a href="#menu" class="hover:text-brand-red transition-colors py-1">MENÚ</a>
+                    <a href="#nosotros" class="hover:text-brand-red transition-colors py-1">NOSOTROS</a>
+                    <a href="#pedidos" class="hover:text-brand-red transition-colors py-1">PEDIDOS</a>
+                </nav>
+
+                <!-- CTA Button (Desktop) -->
+                <div class="hidden md:flex items-center">
+                    <a href="#pedidos" class="bg-brand-red hover:bg-brand-redHover text-white px-6 py-2.5 rounded-full font-bold text-sm tracking-wider uppercase shadow-glow-red transition-all hover:scale-105">
+                        <i class="fa-solid fa-fire-flame-curved mr-2"></i>PEDIR AHORA
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-btn" type="button" class="text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Abrir Menú">
+                        <i class="fa-solid fa-bars text-2xl" id="menu-icon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden glass-nav border-b border-gray-800 px-4 pt-4 pb-6 space-y-3 transition-all">
+            <a href="#inicio" class="mobile-link block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-card hover:text-brand-red transition-all">INICIO</a>
+            <a href="#menu" class="mobile-link block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-card hover:text-brand-red transition-all">MENÚ</a>
+            <a href="#nosotros" class="mobile-link block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-card hover:text-brand-red transition-all">NOSOTROS</a>
+            <a href="#pedidos" class="mobile-link block px-3 py-2 rounded-md text-base font-medium hover:bg-brand-card hover:text-brand-red transition-all">PEDIDOS</a>
+            <a href="#pedidos" class="mobile-link block w-full text-center bg-brand-red hover:bg-brand-redHover text-white px-6 py-3 rounded-full font-bold text-sm tracking-wider uppercase mt-4">
+                <i class="fa-solid fa-fire-flame-curved mr-2"></i>PEDIR AHORA
+            </a>
+        </div>
+    </header>
+
+    <!-- 2. PORTADA PRINCIPAL (HERO) -->
+    <section id="inicio" class="relative min-h-screen hero-gradient flex items-center pt-24 pb-16 overflow-hidden">
+        <!-- Background Decorative Element -->
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-brand-red/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Hero Left Text -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    <div class="inline-flex items-center gap-2 bg-brand-card/80 border border-brand-red/30 px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold tracking-wider text-brand-red uppercase mb-2">
+                        <i class="fa-solid fa-star text-brand-gold"></i> Hamburguesas Gourmet 100% Artesanales
+                    </div>
+
+                    <h1 class="text-5xl sm:text-7xl xl:text-8xl font-display font-bold tracking-tight text-white uppercase leading-none">
+                        EL SABOR QUE <br><span class="text-brand-red drop-shadow-md">NO SE OLVIDA</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+                        Hamburguesas hechas para los que se toman el sabor en serio. Carne 100% vacuna seleccionada día a día, pan brioche recién horneado y las salsas más brutales.
+                    </p>
+
+                    <!-- Buttons CTA -->
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+                        <a href="#menu" class="bg-brand-red hover:bg-brand-redHover text-white px-8 py-4 rounded-full font-bold text-base tracking-wider uppercase shadow-glow-red transition-all hover:scale-105 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-utensils"></i> VER MENÚ
+                        </a>
+                        <button onclick="enviarPedidoWhatsApp('¡Hola! Me gustaría hacer un pedido.')" class="bg-transparent hover:bg-brand-whatsapp/10 text-white border-2 border-brand-whatsapp hover:border-brand-whatsapp px-8 py-4 rounded-full font-bold text-base tracking-wider uppercase transition-all hover:scale-105 flex items-center justify-center gap-2 text-brand-whatsapp">
+                            <i class="fa-brands fa-whatsapp text-xl"></i> PEDIR POR WHATSAPP
+                        </button>
+                    </div>
+
+                    <!-- Badges -->
+                    <div class="grid grid-cols-3 gap-4 pt-8 border-t border-gray-800/80 max-w-lg mx-auto lg:mx-0">
+                        <div class="text-center lg:text-left">
+                            <span class="block font-display text-2xl text-white">180G</span>
+                            <span class="text-xs text-gray-400 uppercase">Medallón Jugoso</span>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <span class="block font-display text-2xl text-brand-red">BRIOCHE</span>
+                            <span class="text-xs text-gray-400 uppercase">Pan Artesanal</span>
+                        </div>
+                        <div class="text-center lg:text-left">
+                            <span class="block font-display text-2xl text-white">100%</span>
+                            <span class="text-xs text-gray-400 uppercase">Sabor Real</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Image -->
+                <div class="lg:col-span-5 flex justify-center relative">
+                    <!-- Glow Behind Image -->
+                    <div class="absolute inset-0 bg-brand-red/20 rounded-full blur-2xl transform scale-90"></div>
+                    
+                    <div class="relative w-full max-w-md lg:max-w-none">
+                        <img 
+                            src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1000&q=80" 
+                            alt="Burger House Especial" 
+                            class="w-full h-auto object-cover rounded-3xl shadow-2xl border border-gray-800 transform hover:scale-[1.02] transition-transform duration-500"
+                            onerror="this.src='https://placehold.co/600x600/121212/ff1e27?text=BURGER+HOUSE'"
+                        >
+                        <!-- Float Badge -->
+                        <div class="absolute -bottom-4 -left-4 bg-brand-card border border-gray-800 p-4 rounded-2xl shadow-2xl flex items-center gap-3">
+                            <div class="bg-brand-red/20 p-3 rounded-xl text-brand-red">
+                                <i class="fa-solid fa-fire text-2xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-400 font-semibold uppercase">Recomendada</p>
+                                <p class="text-sm font-bold text-white">Burger House Especial</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. SECCIÓN MENÚ INTERACTIVO -->
+    <section id="menu" class="py-20 bg-brand-dark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-3">
+                <span class="text-brand-red font-semibold text-sm tracking-widest uppercase">Nuestra Selección Gourmet</span>
+                <h2 class="text-4xl sm:text-6xl font-display font-bold text-white tracking-tight uppercase">MENÚ DE LA CASA</h2>
+                <div class="w-20 h-1 bg-brand-red mx-auto rounded-full"></div>
+                <p class="text-gray-400 text-sm sm:text-base pt-2">Elegí tu favorita y pedila directamente a nuestro WhatsApp con un par de clics.</p>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card 1 -->
+                <div class="bg-brand-card rounded-2xl overflow-hidden card-border-glow flex flex-col justify-between group">
+                    <div>
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Hamburguesa Clásica" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Hamburguesa+Clasica'">
+                            <span class="absolute top-4 right-4 bg-brand-red text-white font-display text-xl px-3 py-1 rounded-full shadow-md">
+                                $6.000 ARS
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-red transition-colors">Hamburguesa Clásica</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                Medallón de carne 180g, queso cheddar fundido, lechuga fresca, tomate jugoso y salsa especial House en pan brioche.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="enviarPedidoWhatsApp('Hola, quiero pedir la Hamburguesa Clásica ($6.000 ARS)')" 
+                                class="w-full bg-brand-black hover:bg-brand-red text-white border border-gray-700 hover:border-brand-red py-3 rounded-xl font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> PEDIR ESTE PRODUCTO
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-brand-card rounded-2xl overflow-hidden card-border-glow flex flex-col justify-between group">
+                    <div>
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Doble Bacon" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Doble+Bacon'">
+                            <span class="absolute top-4 right-4 bg-brand-red text-white font-display text-xl px-3 py-1 rounded-full shadow-md">
+                                $8.500 ARS
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-red transition-colors">Doble Bacon</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                Doble medallón de carne 180g, doble cheddar, doble porción de crispy bacon ahumado y salsa BBQ artesanal.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="enviarPedidoWhatsApp('Hola, quiero pedir la Doble Bacon ($8.500 ARS)')" 
+                                class="w-full bg-brand-black hover:bg-brand-red text-white border border-gray-700 hover:border-brand-red py-3 rounded-xl font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> PEDIR ESTE PRODUCTO
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 3 (Destacado) -->
+                <div class="bg-brand-card rounded-2xl overflow-hidden card-border-glow flex flex-col justify-between group border-brand-red/50 relative">
+                    <div class="absolute top-3 left-3 z-10 bg-brand-red text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-lg">
+                        Especialidad
+                    </div>
+                    <div>
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Burger House Especial" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Burger+House+Especial'">
+                            <span class="absolute top-4 right-4 bg-brand-red text-white font-display text-xl px-3 py-1 rounded-full shadow-md">
+                                $10.000 ARS
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-red transition-colors">Burger House Especial</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                Triple carne, queso cheddar caramelizado, cebolla crispy, bacon, pepinillos y salsa secreta de la casa.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="enviarPedidoWhatsApp('Hola, quiero pedir la Burger House Especial ($10.000 ARS)')" 
+                                class="w-full bg-brand-red hover:bg-brand-redHover text-white py-3 rounded-xl font-semibold text-sm tracking-wide transition-all shadow-glow-red flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> PEDIR ESTE PRODUCTO
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-brand-card rounded-2xl overflow-hidden card-border-glow flex flex-col justify-between group">
+                    <div>
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1576107232684-1279f3908594?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Papas con cheddar" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Papas+con+Cheddar'">
+                            <span class="absolute top-4 right-4 bg-brand-red text-white font-display text-xl px-3 py-1 rounded-full shadow-md">
+                                $4.000 ARS
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-red transition-colors">Papas con Cheddar</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                Papas bastón crujientes bañadas en abundante queso cheddar fundido y trocitos de bacon crocante.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="enviarPedidoWhatsApp('Hola, quiero pedir las Papas con Cheddar ($4.000 ARS)')" 
+                                class="w-full bg-brand-black hover:bg-brand-red text-white border border-gray-700 hover:border-brand-red py-3 rounded-xl font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> PEDIR ESTE PRODUCTO
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-brand-card rounded-2xl overflow-hidden card-border-glow flex flex-col justify-between group md:col-span-2 lg:col-span-1">
+                    <div>
+                        <div class="relative overflow-hidden h-56">
+                            <img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Gaseosa de 500 ml" 
+                                 class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                 onerror="this.src='https://placehold.co/600x400/1a1a1a/ffffff?text=Gaseosa+500ml'">
+                            <span class="absolute top-4 right-4 bg-brand-red text-white font-display text-xl px-3 py-1 rounded-full shadow-md">
+                                $2.000 ARS
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-brand-red transition-colors">Gaseosa de 500 ml</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                                Variedad de sabores helados (Línea Coca-Cola, Fanta, Sprite) ideales para acompañar tu menú.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="enviarPedidoWhatsApp('Hola, quiero pedir una Gaseosa de 500 ml ($2.000 ARS)')" 
+                                class="w-full bg-brand-black hover:bg-brand-red text-white border border-gray-700 hover:border-brand-red py-3 rounded-xl font-semibold text-sm tracking-wide transition-all flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> PEDIR ESTE PRODUCTO
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. SECCIÓN NOSOTROS -->
+    <section id="nosotros" class="py-20 bg-brand-black relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Image Side -->
+                <div class="lg:col-span-6 relative">
+                    <div class="relative rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80" 
+                             alt="Cocina Burger House" 
+                             class="w-full h-auto object-cover"
+                             onerror="this.src='https://placehold.co/800x600/121212/ffffff?text=Burger+House+Cocina'">
+                    </div>
+                    <div class="absolute -bottom-6 -right-6 bg-brand-red text-white p-6 rounded-2xl shadow-glow-red hidden sm:block">
+                        <p class="font-display text-4xl font-bold">100%</p>
+                        <p class="text-xs uppercase font-semibold">Pasión y Calidad</p>
+                    </div>
+                </div>
+
+                <!-- Text Side -->
+                <div class="lg:col-span-6 space-y-6">
+                    <span class="text-brand-red font-semibold text-sm tracking-widest uppercase">Nuestra Historia</span>
+                    <h2 class="text-4xl sm:text-5xl font-display font-bold text-white tracking-tight uppercase">
+                        PASIÓN POR EL VERDADERO SABOR
+                    </h2>
+                    <p class="text-gray-300 text-base leading-relaxed">
+                        En <strong class="text-white">BURGER HOUSE</strong> nos enfocamos en perfeccionar cada detalle. Seleccionamos diariamente los mejores cortes de carne para lograr un medallón jugoso y con el Smash o cocción ideal.
+                    </p>
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        Acompañamos nuestras creaciones con pan brioche horneado todas las mañanas y salsas artesanales creadas en nuestra propia cocina. No hacemos comida rápida genérica: creamos experiencias gastronómicas pensadas para quienes no transan con la calidad.
+                    </p>
+
+                    <div class="pt-4 grid grid-cols-2 gap-4">
+                        <div class="border-l-2 border-brand-red pl-4">
+                            <h4 class="font-bold text-white text-base">Ingredientes Frescos</h4>
+                            <p class="text-xs text-gray-400 mt-1">Calidad garantizada sin conservantes.</p>
+                        </div>
+                        <div class="border-l-2 border-brand-red pl-4">
+                            <h4 class="font-bold text-white text-base">Recetas Propias</h4>
+                            <p class="text-xs text-gray-400 mt-1">Salsas exclusivas preparadas a diario.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SECCIÓN DE PEDIDOS (WHATSAPP CTA) -->
+    <section id="pedidos" class="py-20 bg-brand-dark relative">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-brand-card via-black to-brand-card p-8 sm:p-12 rounded-3xl border border-gray-800 text-center relative overflow-hidden shadow-2xl">
+                
+                <!-- Ambient Icon -->
+                <div class="absolute -right-10 -bottom-10 text-gray-800/20 text-9xl pointer-events-none">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </div>
+
+                <div class="max-w-2xl mx-auto space-y-6 relative z-10">
+                    <div class="w-16 h-16 bg-brand-whatsapp/20 text-brand-whatsapp rounded-full flex items-center justify-center mx-auto text-3xl shadow-glow-green">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </div>
+
+                    <h2 class="text-3xl sm:text-5xl font-display font-bold text-white uppercase tracking-tight">
+                        ¿CON HAMBRE? PEDÍ POR WHATSAPP EN SEGUNDOS
+                    </h2>
+
+                    <p class="text-gray-300 text-sm sm:text-base">
+                        Hacé tu pedido directo de forma fácil, rápida y sin intermediarios. Recibimos tu pedido al instante en nuestra cocina.
+                    </p>
+
+                    <!-- Large WhatsApp Button -->
+                    <div class="pt-4">
+                        <button onclick="enviarPedidoWhatsApp(CONFIG_WHATSAPP.mensajePredeterminado)" 
+                                class="inline-flex items-center justify-center gap-3 bg-brand-whatsapp hover:bg-green-600 text-white px-8 py-5 rounded-full font-bold text-lg tracking-wider uppercase shadow-glow-green transition-all hover:scale-105 w-full sm:w-auto">
+                            <i class="fa-brands fa-whatsapp text-2xl"></i> INICIAR PEDIDO POR WHATSAPP
+                        </button>
+                    </div>
+
+                    <!-- Developer Marker Notice -->
+                    <div class="mt-8 pt-6 border-t border-gray-800/80 text-xs text-gray-500 font-mono">
+                        <p><i class="fa-solid fa-code text-brand-red mr-1"></i> <strong>Nota para el Administrador / Demo:</strong> El número de WhatsApp se configura editando la constante <code class="text-brand-red bg-black px-1.5 py-0.5 rounded">CONFIG_WHATSAPP.numero</code> en la línea 32 del archivo HTML.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PIE DE PÁGINA (FOOTER) -->
+    <footer class="bg-brand-black border-t border-gray-800 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12">
+                
+                <!-- Col 1: Brand -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-brand-red flex items-center justify-center text-white text-base">
+                            <i class="fa-solid fa-burger"></i>
+                        </div>
+                        <span class="font-display text-2xl tracking-wider text-white">BURGER <span class="text-brand-red">HOUSE</span></span>
+                    </div>
+                    <p class="text-gray-400 text-xs leading-relaxed">
+                        La experiencia definitiva en hamburguesas gourmet. Calidad, sabor urbano y la mejor atención.
+                    </p>
+                </div>
+
+                <!-- Col 2: Navigation -->
+                <div>
+                    <h4 class="text-white font-bold text-sm tracking-wider uppercase mb-4 border-l-2 border-brand-red pl-2">Navegación</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><a href="#inicio" class="hover:text-brand-red transition-colors">Inicio</a></li>
+                        <li><a href="#menu" class="hover:text-brand-red transition-colors">Menú de la Casa</a></li>
+                        <li><a href="#nosotros" class="hover:text-brand-red transition-colors">Sobre Nosotros</a></li>
+                        <li><a href="#pedidos" class="hover:text-brand-red transition-colors">Realizar Pedido</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Pending Data / Info -->
+                <div>
+                    <h4 class="text-white font-bold text-sm tracking-wider uppercase mb-4 border-l-2 border-brand-red pl-2">Información</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-location-dot text-brand-red mt-0.5"></i>
+                            <span>Av. Ejemplo 1234, Ciudad <br><em class="text-gray-600">(Dato pendiente de confirmar)</em></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-clock text-brand-red mt-0.5"></i>
+                            <span>Mar a Dom: 19:00 a 00:00 hs <br><em class="text-gray-600">(Dato pendiente de confirmar)</em></span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Col 4: Social -->
+                <div>
+                    <h4 class="text-white font-bold text-sm tracking-wider uppercase mb-4 border-l-2 border-brand-red pl-2">Redes Sociales</h4>
+                    <p class="text-xs text-gray-400 mb-3">Seguinos para ver nuestras promociones:</p>
+                    <div class="flex gap-3">
+                        <a href="#" onclick="alert('Enlace de Instagram pendiente de configurar.'); return false;" class="w-9 h-9 bg-brand-card hover:bg-brand-red text-white rounded-full flex items-center justify-center transition-all border border-gray-800">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#" onclick="alert('Enlace de Facebook pendiente de configurar.'); return false;" class="w-9 h-9 bg-brand-card hover:bg-brand-red text-white rounded-full flex items-center justify-center transition-all border border-gray-800">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                    </div>
+                    <p class="text-xs text-gray-600 mt-2">@burgerhouse.demo (Pendiente)</p>
+                </div>
+
+            </div>
+
+            <!-- Bottom Credits -->
+            <div class="border-t border-gray-800/80 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 gap-4">
+                <p>&copy; 2026 BURGER HOUSE. Todos los derechos reservados.</p>
+                <p class="text-center sm:text-right">
+                    Diseño Web Profesional por <span class="text-brand-red font-semibold">Tu Agencia Web</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // 1. WhatsApp Redirection Engine
+        function enviarPedidoWhatsApp(mensaje) {
+            if (CONFIG_WHATSAPP.numero === "549XXXXXXXXXX" || CONFIG_WHATSAPP.numero.includes("X")) {
+                alert(" [ MODO DEMO ]\n\nEl botón funciona correctamente.\nPara redirigir a un WhatsApp real, edita la variable 'CONFIG_WHATSAPP.numero' en el código fuente con el teléfono del comercio.");
+                return;
+            }
+            
+            const url = `https://wa.me/${CONFIG_WHATSAPP.numero}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+
+        // 2. Mobile Navigation Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            if (mobileMenu.classList.contains('hidden')) {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            } else {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            }
+        });
+
+        // Close mobile menu on link click
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            });
+        });
+
+        // 3. Navbar Sticky Effect on Scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass-nav', 'border-gray-800', 'shadow-2xl');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-2');
+            } else {
+                navbar.classList.remove('glass-nav', 'border-gray-800', 'shadow-2xl');
+                navbar.classList.remove('py-2');
+                navbar.classList.add('py-4');
+            }
+        });
+    </script>
+</body>
+</html>
